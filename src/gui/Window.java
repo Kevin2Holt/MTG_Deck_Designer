@@ -22,14 +22,18 @@ public class Window extends Application{
 	public Window(String[] args) {
 		Application.launch(args);
 	}
+	public Window() {}
 
 
 
 
 //Main Functionality
 	public void start(Stage newPrimaryStage) {
+
+		this.primaryStage = newPrimaryStage;
 		
 		this.primaryStage.setTitle("Magic: The Gathering - Deck Designer");
+		this.openMainScene();
 		this.primaryStage.show();
 	}
 
@@ -37,12 +41,18 @@ public class Window extends Application{
 		this.primaryStage.close();
 	}
 
+	public Stage getPrimaryStage() {
+		return this.primaryStage;
+	}
+
 
 
 
 //Change Scenes
 	public void openMainScene() {
-		this.primaryStage.setScene(new sceneMain(this).get());
+		System.out.println(1);
+		sceneMain temp = new sceneMain();
+		this.primaryStage.setScene(temp.get());
 	}
 
 	public void openCreateDeckScene() {

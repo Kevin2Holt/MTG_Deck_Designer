@@ -31,8 +31,8 @@ public class sceneMain {
 		this.newDeckBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 
-				this.window.close();
-				new Window().openCreateDeckScene();
+				// this.window.close();
+				new Window(this.window.getPrimaryStage()).openCreateDeckScene();
 			}
 		});
 
@@ -40,7 +40,7 @@ public class sceneMain {
 		this.loadDeckBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 
-				this.window.openLoadDeckScene();
+				new Window().openLoadDeckScene();
 			}
 		});
 

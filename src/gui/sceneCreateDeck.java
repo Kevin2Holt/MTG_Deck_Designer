@@ -1,11 +1,14 @@
 package src.gui;
 
 import src.gui.Window;
+import src.MTG.Deck;
 
 import javafx.event.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+// import javafx.collections.FXCollections;
+import java.util.*;
 
 public class sceneCreateDeck {
 
@@ -20,7 +23,7 @@ public class sceneCreateDeck {
 	Label nameLabel;
 	Label typeLabel;
 	TextField nameInput;
-	ComboBox typeInput;
+	ComboBox<String> typeInput;
 	Button createDeckBtn;
 
 	public sceneCreateDeck(Window newWindow) {
@@ -34,17 +37,18 @@ public class sceneCreateDeck {
 
 		this.nameInput= new TextField();
 		
-		this.typeInput = new ComboBox();
-		this.typeInput.getItems().addAll(
-			"Standard",
-			"Commander"
-		);
+		// ArrayList<String> deckTypes = new ArrayList<String>();
+		// deckTypes.add("Standard");
+		// deckTypes.add("Commander");
+		this.typeInput = new ComboBox<String>();
+		this.typeInput.getItems().addAll("Standard", "Commander");
+		this.typeInput.setValue("Standard");
 
 		this.createDeckBtn = new Button("Create");
 		this.createDeckBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
-				this.window.close();
-				new Window().openEditDeckScene(new Deck(nameInput.getText(),typeInput.getValue()));
+				// this.window.close();
+				new Window().openEditDeckScene(new Deck(nameInput.getText(),""+typeInput.getValue()));
 			}
 		});
 

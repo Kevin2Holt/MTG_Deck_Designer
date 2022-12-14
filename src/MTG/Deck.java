@@ -154,6 +154,7 @@ public class Deck {
 			else if(this.isCommander) {
 				return "COMMANDER";
 			}
+			return null;
 		}
 		public String getName() {
 			return this.name;
@@ -241,8 +242,8 @@ public class Deck {
 					BufferedReader inFile = new BufferedReader(new FileReader(srcFile));
 					String line = inFile.readLine();
 
-					String tempName;
-					String tempType;
+					String tempName = "";
+					String tempType = "";
 
 					if(line != null) {
 						tempName = line;
