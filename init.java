@@ -1,9 +1,9 @@
-//Program Imports
+// Program Imports
 import src.gui.Create;
 import src.gui.Edit;
 import src.gui.Search;
 import src.MTG.Deck;
-//Java imports
+// Java imports
 import javafx.application.Application;
 import javafx.event.*;
 import javafx.scene.Scene;

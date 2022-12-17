@@ -1,8 +1,9 @@
 package src.MTG;
 
+// Program Imports
 import src.MTG.Card;
 import src.MTG.CardDatabase;
-
+// Java Imports
 import java.sql.*;
 import java.util.*;
 import java.util.stream.*;
@@ -196,7 +197,6 @@ public class Deck {
 			return res;
 		}
 
-		
 		public int validate() {
 			/*
 			Return Codes:

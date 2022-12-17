@@ -1,10 +1,11 @@
 package src.gui;
 
+// Program Imports
 import src.MTG.Deck;
 import src.MTG.Card;
 import src.MTG.CardDatabase;
 import src.gui.Filter;
-
+// Java Imports
 import javafx.application.Application;
 import javafx.event.*;
 import javafx.scene.Scene;
@@ -168,7 +169,7 @@ public class Search extends Application{
 		if(searchText.length() > 0) {
 			searchQuery += " WHERE";
 			for(int i=0; i<filter.size(); i++) {
-				searchQuery += filter.get(i) + "LIKE \'"+searchText+"\' OR";
+				searchQuery += " "+filter.get(i) + " LIKE \'"+searchText+"\' OR";
 			}
 			searchQuery = searchQuery.substring(0, searchQuery.length() - 3)+" GROUP BY name";
 		}

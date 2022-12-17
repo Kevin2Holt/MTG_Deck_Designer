@@ -1,11 +1,13 @@
 package src.gui;
 
+// Program Imports
 import src.MTG.Deck;
 import src.MTG.Card;
 import src.MTG.CardDatabase;
 import src.gui.Search;
 import src.gui.Filter;
-
+import src.gui.Home;
+// Java Imports
 import javafx.application.Application;
 import javafx.event.*;
 import javafx.scene.Scene;
@@ -46,6 +48,7 @@ public class Edit extends Application {
 		Button openSearchBtn;
 		Button openFilterBtn;
 		Button saveBtn;
+		Button homeBtn;
 		TableView deckTable;
 		// Constants
 		private final int width = 1000;
@@ -149,6 +152,18 @@ public class Edit extends Application {
 						curDeck.save(deckFile);
 				}
 			});
+			this.homeBtn = new Button("Home");
+			this.homeBtn.setOnAction(new EventHandler<ActionEvent>() {
+				@Override public void handle(ActionEvent e) {
+
+					//Log to Console
+					System.out.println("Button Pressed: \"Home\"");
+
+					/* Actions */
+						root.close();
+						Home homeWindow = new Home();
+				}
+			});
 		
 		/* Customization & Options */
 			// Deck Table
@@ -215,6 +230,7 @@ public class Edit extends Application {
 			this.gp.add(openSearchBtn,	4, 1,		1, 1);
 			this.gp.add(openFilterBtn,	5, 1,		1, 1);
 			this.gp.add(saveBtn,		6, 1,		1, 1);
+			this.gp.add(homeBtn,		7, 1,		1, 1);
 			// Row 2
 			this.gp.add(deckTable,		0, 2,		9, 9);
 

@@ -1,9 +1,10 @@
 package src.gui;
 
-//Program Imports
+// Program Imports
 import src.gui.Edit;
 import src.MTG.Deck;
-//Java Imports
+import src.gui.Home;
+// Java Imports
 import javafx.application.Application;
 import javafx.event.*;
 import javafx.scene.Scene;
@@ -31,6 +32,7 @@ public class Create extends Application {
 		TextField nameInput;
 		ComboBox<String> typeInput;
 		Button createDeckBtn;
+		Button homeBtn;
 		// Constants
 		private final int width = 500;
 		private final int height = 350;
@@ -80,6 +82,18 @@ public class Create extends Application {
 						Edit editWindow = new Edit(new Deck(nameInput.getText(),typeInput.getValue()),defaultFilter);
 				}
 			});
+			this.homeBtn = new Button("Home");
+			this.homeBtn.setOnAction(new EventHandler<ActionEvent>() {
+				@Override public void handle(ActionEvent e) {
+
+					//Log to Console
+					System.out.println("Button Pressed: \"Home\"");
+
+					/* Actions */
+						root.close();
+						Home homeWindow = new Home();
+				}
+			});
 
 		/* Place Objects				Coords	|	Col/Row-Span */
 			// Row 0 - Top Row
@@ -91,7 +105,8 @@ public class Create extends Application {
 			this.gp.add(typeLabel,		0, 2,		1, 1);
 			this.gp.add(typeInput,		1, 2,		1, 1);
 			// Row 3
-			this.gp.add(createDeckBtn,	1, 3,		1, 1);
+			this.gp.add(createDeckBtn,	0, 3,		1, 1);
+			this.gp.add(homeBtn,		1, 3,		1, 1);
 
 		/* Set Base JavaFX Info */
 			root.setTitle("Magic: The Gathering - Deck Designer: Create New Deck");

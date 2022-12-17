@@ -1,6 +1,7 @@
 package src.MTG;
-
+// Program Imports
 import src.MTG.CardDatabase;
+// Java Imports
 import java.sql.*;
 
 public class Card {
@@ -16,13 +17,7 @@ public class Card {
 
 
 
-//Get Calculated Info
-	public int getConvertedManaCost() {
-		int res = 0;
-		//Colorless, White, Blue, Black, Red, Green
-		return res;
-	}
-
+// Get Calculated Info
 	public ResultSet getCard() {
 		return db.query("SELECT * FROM cards WHERE name = "+this.name);
 	}
@@ -34,7 +29,7 @@ public class Card {
 
 
 
-//Getters
+// Getters
 	public String getName() {
 		return this.name;
 	}

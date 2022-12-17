@@ -1,5 +1,8 @@
 package src.MTG;
 
+// Program Imports
+
+// Java Imports
 import java.sql.*;
 
 public class CardDatabase {
@@ -14,6 +17,7 @@ public class CardDatabase {
 	private Connection con;
 	private Statement stmt;
 
+	/* Create connection */
 	public CardDatabase() {
 		try {
 			Class.forName("com."+DBTYPE+".cj.jdbc.Driver");
