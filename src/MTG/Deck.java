@@ -2,7 +2,6 @@ package src.MTG;
 
 import src.MTG.Card;
 import src.MTG.CardDatabase;
-import src.gui.Window;
 
 import java.sql.*;
 import java.util.*;
@@ -21,10 +20,11 @@ public class Deck {
 		this.name = newName;
 		this.cards = new ArrayList<Card>();
 		
-		if(deckType.toUpperCase() == "STANDARD") {
+		// System.out.println(deckType);
+		if(deckType.toUpperCase().equals("STANDARD")) {
 			this.isStandard = true;
 		}
-		else if(deckType.toUpperCase() == "COMMANDER") {
+		else if(deckType.toUpperCase().equals("COMMANDER")) {
 			this.isCommander = true;
 			this.cards.set(0, null);
 		}
@@ -49,7 +49,8 @@ public class Deck {
 
 			try {
 				//Checks that card name exists
-				ResultSet res = db.query("SELECT COUNT() FROM cards WHERE name = "+newName);//Data Validation
+				ResultSet res = db.query("SELECT COUNT(name) FROM cards WHERE name = '"+newName+"'");//Data Validation
+				res.next();
 				if(res.getInt(1) >= 1) {
 					this.cards.add(new Card(newName, db));
 				}
@@ -103,7 +104,7 @@ public class Deck {
 	//Get Info
 		//Gets the last index of a card in the deck
 		private int getLastIndex(String cardName) {
-			for(int i = this.cards.size(); i >= 0; i--) {
+			for(int i = this.cards.size()-1; i >= 0; i--) {
 				if(this.cards.get(i) != null && this.cards.get(i).getName().equals(cardName)) {
 					return i;//If at least one is found, returns that index
 				}
@@ -134,20 +135,30 @@ public class Deck {
 		}
 		//Used to get all columns
 		public ResultSet getCardInfo() {
+			if(this.cards.size() == 0) {
+				return null;
+			}
 			getCardInfoQuery = "SELECT * FROM cards WHERE";//Base of query
 			this.cards.forEach((card) -> addGetCardInfo(card.getName()));//Add each card name to query
 			getCardInfoQuery = getCardInfoQuery.substring(0, getCardInfoQuery.length() - 3)+" GROUP BY name";//Trim query & add ending statement
 			return db.query(getCardInfoQuery);
 		}
 		//Used if you only want specific columns
-		public ResultSet getCardInfoByColumn(String queryTxt) {
+		public ResultSet getCardInfoByColumn(ArrayList<String> filter) {
+			String queryTxt = "";
+			for(int i=0; i<filter.size()-1;i++) {
+				queryTxt += filter.get(i)+", ";
+			}
+			queryTxt = queryTxt.substring(0, queryTxt.length() - 2);
 			getCardInfoQuery = "SELECT "+queryTxt+" FROM cards WHERE";//Base of query
 			this.cards.forEach((card) -> addGetCardInfo(card.getName()));//Add each card name to query
 			getCardInfoQuery = getCardInfoQuery.substring(0, getCardInfoQuery.length() - 3)+" GROUP BY name";//Trim query & add ending statemnent
 			return db.query(getCardInfoQuery);
 		}
 
-		public String getDeckType() {
+		public String getType() {
+			// System.out.println(this.isStandard);
+			// System.out.println(this.isCommander);
 			if(this.isStandard) {
 				return "STANDARD";
 			}
@@ -235,15 +246,16 @@ public class Deck {
 
 
 	//Other
-		public static Deck importDeck(Window window, File srcFile) {
+		public static Deck importDeck(File srcFile) {
 			if(srcFile != null) {
 				try {
 
 					BufferedReader inFile = new BufferedReader(new FileReader(srcFile));
-					String line = inFile.readLine();
 
 					String tempName = "";
 					String tempType = "";
+
+					String line = inFile.readLine();
 
 					if(line != null) {
 						tempName = line;
@@ -253,12 +265,16 @@ public class Deck {
 
 					if(line != null) {
 						tempType = line;
+
 					}
+					// System.out.println(tempName);
+					// System.out.println(tempType);
 					Deck res = new Deck(tempName,tempType);
 
-					if(res.getDeckType().equals("COMMANDER")) {
+					if(res.getType().equals("COMMANDER")) {
 						line = inFile.readLine();
 						if(res.setCommander(line) <= -2) {//Checking for errors
+							// System.out.println(res.setCommander(line));
 							return null;
 						}
 					}
@@ -268,6 +284,7 @@ public class Deck {
 					while(line != null) {//Loop through the rest of lines
 						if(line.equals("")) {}
 						else if(res.addCard(line) <= -2) {//Checking for errors
+							// System.out.println(res.addCard(line));
 							return null;
 						}
 						line = inFile.readLine();
@@ -282,6 +299,41 @@ public class Deck {
 					return null;
 				}
 			}
+			System.out.println("null");
 			return null;
+			
+			/*
+			.deck format
+
+			[Start File]
+			<Deck Name>
+			<Deck Type>
+			<Card0 or Commander Name>
+			<Card1 Name>
+			<Card2 Name>
+			...
+			[End File]
+			*/
+		}
+		public void save(File outputFile) {
+			try {
+				outputFile.createNewFile();
+			}
+			catch(Exception e) {System.out.println(e);}
+			try {
+				PrintWriter outFile = new PrintWriter(new FileOutputStream(outputFile));
+				outFile.write((String) this.name+"\n");
+				outFile.write((String) this.getType()+"\n");
+				for(int i=0; i<this.cards.size(); i++) {
+					outFile.write((String) this.cards.get(i).getName()+"\n");
+				}
+				outFile.close();
+				System.out.println("File Saved");
+			}
+			catch(Exception e) {
+				System.out.println("ERROR: Unable to save file");
+				System.out.println(e);
+			}
+			
 		}
 }
