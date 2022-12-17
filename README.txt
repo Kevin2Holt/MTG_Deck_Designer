@@ -1,6 +1,6 @@
 Creator: Kevin Holt
-Date: 2022.12.03 (YMD)
-Project: Magic: The Gathering Deck Designer
+Date: 2022.12.17 (YMD)
+Project: Magic: The Gathering - Deck Designer
 
 To run the program, compile 'init.java' then run the 'init' class
 	Commands (input into a command prompt terminal):
